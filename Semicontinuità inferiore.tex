@@ -1,0 +1,188 @@
+\documentclass[a4paper, 11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english,italian]{babel}
+
+\usepackage{amssymb}
+%\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{amsthm}
+
+\usepackage{microtype}
+
+\usepackage{hyperref}
+
+\title{Semicontinuità Inferiore}
+\author{Andrea Marino}
+\date{Maggio 2023}
+
+% comandi custom:
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\I}[1]{\mathcal{I}(#1)}
+
+% teoremi custom:
+\theoremstyle{plain} 	% Definisce ambienti per Teoremi, esercizi, corollari... Con lo stile adeguato
+	\newtheorem{proposizione}{Proposizione}
+	\newtheorem*{proposizione*}{Proposizione}
+
+    \newtheorem{lemma}{Lemma}
+	
+	\newtheorem{teorema}{Teorema}
+	\newtheorem*{teorema*}{Teorema}
+
+    \newtheorem{corollario}{Corollario}
+
+\theoremstyle{definition}
+    \newtheorem{definizione}{Definizione}
+	\newtheorem*{definizione*}{Definizione}
+
+    \newtheorem{es}{Esercizio}
+
+\theoremstyle{remark}
+	\newtheorem{oss}{Osservazione}
+	\newtheorem*{oss*}{Osservazione}
+
+\begin{document}
+
+    \maketitle
+    
+    \begin{abstract}
+        Questo breve articolo esamina tre caratterizzazioni equivalenti di semicontinuità inferiore. 
+
+        I concetti trattati sono alla portata di chiunque abbia qualche nozione di base di topologia generale (all'Università di Pisa, queste sono fornite ad esempio dal corso di Geometria 2), ma -- ho pensato -- un "rinfresco" non farà male.
+    \end{abstract}
+
+    Sia $\left(X,\tau\right)$ uno spazio topologico. Per il resto della trattazione ometteremo di indicare esplicitamente la topologia $\tau$ di $X$, visto che non ci saranno ambiguità.
+    \begin{definizione}
+        Una funzione $f\colon X\to\R$ si dice \emph{semicontinua inferiormente} in $x_0\in X$ se $\forall\,\epsilon>0\ \exists\,U\in\I{x_0}\quad f(x)>f(x_0)-\epsilon$, dove $\I{x_0}$ è la famiglia degli intorni di $x_0$.
+    \end{definizione}
+    La topologia considerata su $\R$ è, naturalmente, la topologia euclidea.
+    \begin{oss*}
+        Una funzione si dice \emph{semicontinua inferiormente su $X$} se è semicontinua inferiormente in ogni $x\in X$.
+    \end{oss*}
+    \begin{definizione}\label{def:top_sci}
+        La \emph{topologia della semicontinuità inferiore} su $\R$ è data da $\tau_I=\left\{\emptyset,\R\right\}\cup\left\{(y,+\infty)\mid y\in\R\right\}$.
+    \end{definizione}
+    Quindi gli aperti sono $\emptyset, \R$ e le semirette aperte a sinistra, illimitate a destra.
+
+    Ricordiamo che una funzione tra spazi topologici si dice \emph{continua} se l'immagine inversa di un aperto è un aperto. Ricordiamo inoltre la seguente definizione:
+
+    \begin{definizione}\label{def:cont_pt}
+        Sia $A$ uno spazio topologico. Una funzione $f\colon X\to A$ si dice \emph{continua in $x_0$} se $\forall\,V\in\I{f(x_0)}\ \exists\,U\in\I{x_0}\quad f^{-1}\left(V\right)\subseteq U$.
+    \end{definizione}
+
+    \begin{proposizione}\label{prop:con_top}
+        $f\colon X\to\R$ è semicontinua inferiormente se e solo se $f\colon X\to\left(\R,\tau_I\right)$ è continua
+    \end{proposizione}
+    \begin{proof} Ricordiamo che una funzione è continua se e solo se è continua in ogni punto.
+        \begin{description}
+            \item[$\left(\Longrightarrow\right)$] Consideriamo $x_0\in X$ e sia $V\in\I{f(x_0)}$. Possiamo supporre $V=(f(x_0)-\epsilon,+\infty)$ per un qualche $\epsilon>0$. Ora, per ipotesi $\exists\,U\in\I{x_0}$ tale che $f(x)>f(x_0)-\epsilon\quad\forall\,x\in U$, ovvero $f(x)\in V\quad\forall\,x\in U$. Ma quindi $f\left(U\right)\subseteq V$. 
+
+            Per la definizione~\ref{def:cont_pt} $f$ è continua in $x_0$. Dall'arbitrarietà di $x_0$ segue che $f$ è continua.
+            \item[$\left(\Longleftarrow\right)$] Sia $x_0\in X$ e sia $\epsilon>0$. \`E sufficiente dimostrare che $f$ è semicontinua inferiormente in $x_0$.
+            
+            Consideriamo $f(x_0)\in\R$ e l'intorno $V\in\I{f(x_0)}$ definito da $V=(f(x_0)-\epsilon,+\infty)$. Poiché $f$ è continua, $U\coloneqq f^{-1}\left(V\right)$ è un aperto di $X$. Si ha che $x_0\in U$, infatti $x_0\in f^{-1}(f(x_0))$, quindi $U$ è un aperto che contiene $x_0$, ossia $U\in\I{x_0}$. 
+
+            Ora, $f\left(U\right)=f\left(f^{-1}(V)\right)\subseteq V$ ossia $\forall\,x\in U$ si ha $f(x)\in V$. Dunque $f(x)>f(x_0)-\epsilon\quad\forall\,x\in U$. \qedhere
+        \end{description}
+    \end{proof}
+
+    \`E possibile dare un'altra caratterizzazione della semicontinuità inferiore. Prima però ricordiamo la seguente definizione:
+    \begin{definizione} il \emph{limite inferiore di $f$ in $x_0$} è definito come
+        \begin{align*}
+            & \liminf_{x\to x_0}f(x)\coloneqq\sup_{U\in\I{x_0}}\inf_{x\in U\setminus\{x_0\}} f(x)=\\
+            & =\sup\left\{\inf\left\{f(x)\in\R\mid x\in U\setminus\{x_0\}\right\}\mid U\in\I{x_0}\right\}.            
+        \end{align*}
+    \end{definizione}
+    \begin{proposizione}\label{prop:liminf}
+        Sia $x_0\in X$ un punto di accumulazione. $f\colon X\to\R$ è semicontinua inferiormente in $x_0\in X$ se e solo se $\liminf_{x\to x_0}f(x)\ge f(x_0)$
+    \end{proposizione}
+    \begin{proof}
+        \begin{description}
+            \item[$\left(\Longleftarrow\right)$] 
+            Sia $\epsilon>0$ e per ogni $U\in\I{x_0}$ definiamo $i(U)=\inf_{x\in U\setminus\{x_0\}}$.
+
+            Per ipotesi 
+            \begin{equation}\label{eqn:sup_ineq}
+                \liminf_{x\to x_0}=\sup\left\{i(U)\mid U\in\I{x_0}\right\}\ge f(x_0)>f(x_0)-\epsilon.
+            \end{equation}
+            Se per ogni $U\in\I{x_0}$ fosse $f(x)\le f(x_0)-\epsilon\quad\forall\,x\in U\setminus\{x_0\}$ allora si avrebbe che $i(U)\le f(x_0)-\epsilon\quad\forall U\in\,\I{x_0}$, e di conseguenza -- passando all'estremo superiore in $U\in\I{x_0}$ -- si avrebbe una contraddizione con la~\eqref{eqn:sup_ineq}.
+
+            Dunque deve esistere $\I{x_0}\ni U=U(\epsilon)$ tale che $f(x)>f(x_0)-\epsilon\quad\forall\,x\in U\setminus\{x_0\}$.
+            \item[$\left(\Longrightarrow\right)$] Per contronominale. Usando la notazione introdotta al punto precedente, $\liminf_{x\to x_0}f(x)<f(x_0)\iff\sup_{U\in\I{x_0}}i(U)<f(x_0)$. Di conseguenza $\exists\,\epsilon>0\quad\sup_{U\in\I{x_0}}i(U)\le f(x_0)-\epsilon$, ma quindi $i(U)\le f(x_0)-\epsilon\quad\forall\,U\in\I{x_0}$.
+
+            Cioè $\inf_{x\in U\setminus\{x_0\}}f(x)\le f(x_0)-\epsilon$. Da ciò segue che $f(x)\le f(x_0)-\epsilon\quad\forall\,x\in U\setminus\{x_0\}\,\forall\,U\in\I{x_0}$.\qedhere
+        \end{description}
+    \end{proof}
+
+    Supponiamo ora che $X=\R^{n}$. In questo caso, possiamo dare un'ulteriore caratterizzazione di semicontinuità inferiore.
+    \begin{proposizione}
+        $f\colon\R^{n}\to\R$ è semicontinua inferiormente se e solo se tutti i sottolivelli sono chiusi.
+    \end{proposizione}
+    \begin{proof}
+        Per la proposizione~\ref{prop:con_top} $f$ è semicontinua inferiormente se e solo se $f\colon\R^n\to\left(\R,\tau_I\right)$ è continua. Ciò accade se e solo se l'immagine inversa di un chiuso è un chiuso.
+
+        Osserviamo che, per ogni $\alpha\in\R$, $\left(-\infty,\alpha\right]=\R\setminus\left(\alpha,+\infty\right)$ è chiuso in $\tau_I$ in quanto complementare di un aperto. Ma $f^{-1}\left(\left(-\infty,\alpha\right]\right)=\left\{x\in\R^n\mid f(x)\le\alpha\right\}$, ossia l'immagine inversa di $(-\infty,\alpha]$ è proprio il sottolivello di livello $\alpha$.
+    \end{proof}
+
+    Vediamo adesso una proprietà molto utile delle funzioni semicontinue inferiormente. Prima di fare ciò, introduciamo un semplice lemma. La proprietà segue immediatamente da questo.
+    \begin{lemma}\label{lemma:cpt_inf}
+        Sia $K\subseteq\R$ compatto per la topologia della semicontinuità inferiore. Allora $\inf K\in K$, ossia $K$ ammette minimo.        
+    \end{lemma}
+    \begin{proof}
+        Sia $\alpha\coloneqq\inf K$ e supponiamo per assurdo che $\alpha\notin K$. 
+
+        Osserviamo che $\mathcal{U}=\left\{\left(\alpha+\frac{1}{n},+\infty\right)\right\}_{n>0}$ è un ricoprimento aperto di $K$. Sia infatti $x\in K$. Allora $x>\alpha$, quindi $\exists\,\Tilde{n}\in\mathbb{N}\setminus\{0\}\quad \frac{1}{\Tilde{n}}<x-\alpha$, dunque $x\in\left(\alpha+1/\Tilde{n},+\infty\right)$.
+
+        Ora, 
+        \[
+            \bigcup\mathcal{U}=\bigcup_{n=1}^{+\infty}(\alpha+1/n,+\infty)=\left(\alpha,+\infty\right)\supseteq K,
+        \]
+        ma non possono esserci sottoricoprimenti finiti di $\mathcal{U}$.
+
+        Siano infatti $n_0<n_1<\dots<n_k$ degli indici. Si ha 
+        \[
+            \bigcup_{t=1}^k(\alpha+1/n_t,+\infty)=\left(\alpha+\frac{1}{n_k},+\infty\right)
+        \]
+        che non contiene $K$ poiché $\alpha$ è l'estremo inferiore di $K$. Siamo caduti in contraddizione.
+    \end{proof}
+    \begin{corollario}
+        Sia $X$ compatto e $f\colon X\to\R$ una funzione semicontinua inferiormente. Allora $f$ assume minimo su $X$.
+    \end{corollario}
+    \begin{proof}
+        Per la proposizione~\ref{prop:con_top} $f$ è continua se consideriamo $\R$ con la topologia della semicontinuità inferiore. 
+
+        Sappiamo dalla topologia generale che l'immagine di un compatto tramite una funzione continua è un compatto, quindi $f(X)$ è compatto in $\left(\R,\tau_I\right)$. Per il lemma~\ref{lemma:cpt_inf} $f(X)$ ammette minimo.
+    \end{proof}
+    
+    
+
+    
+
+
+    \section*{Esercizi}
+    \begin{es}
+        Verificare che la topologia della semicontinuità inferiore introdotta nella definizione~\ref{def:top_sci} è effettivamente una topologia su $\mathbb{R}$ 
+    \end{es}
+    \begin{es}
+        Dimostrare che una funzione è continua se e solo se è continua in ogni punto
+    \end{es}
+    \begin{es}
+        Perché nella dimostrazione della proposizione~\ref{prop:con_top} abbiamo potuto supporre $V=(f(x_0)-\epsilon,+\infty)$ per un qualche $\epsilon>0$?  
+    \end{es}
+    \begin{es}
+        Cosa ci assicura che la quantità $i(U)$ (introdotta nella dimostrazione della proposizione~\ref{prop:liminf}) è ben definita? 
+    \end{es}
+    \begin{es}
+        Sia $x\in\R$. Dimostrare che $[x,+\infty)$ è compatto in $\left(\R,\tau_I\right)$
+    \end{es}
+    \begin{es}
+        Sia $K\subseteq\left(\R,\tau_I\right)$. Dimostrare che la condizione $\min K\in K$ è sufficiente alla compattezza
+    \end{es}
+    \begin{es}
+        Dimostrare che $\bigcup_{n=1}^{+\infty}(\alpha+1/n,+\infty)=\left(\alpha,+\infty\right)$
+    \end{es}
+    \begin{es}
+        Descrivere la topologia della semicontinuità superiore e, partendo da essa, dimostrare le caratterizzazioni delle funzioni semicontinue superiormente analoghe a quelle viste
+    \end{es}
+\end{document}

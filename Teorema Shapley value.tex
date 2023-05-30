@@ -1,0 +1,349 @@
+		% -------------------------- HEAD --------------------------
+\documentclass[a4paper,11pt]{article}
+\usepackage[T1]{fontenc}				% codifica dei font
+\usepackage[utf8]{inputenc}				% lettere accentate da tastiera
+\usepackage[italian]{babel}				% lingua del documento
+%\usepackage{lipsum}						% per generare testo fittizio (placeholder text)
+
+\usepackage{amssymb}
+%\usepackage{amsmath}
+\usepackage{mathtools}					% amsmath sotto steroidi
+\usepackage{amsthm}						% Per creare teoremi e roba
+
+\usepackage{mathdots}					% Migliora il comportamento dei tre puntini, estendendone le funzionalità
+\usepackage{mathrsfs}					% Per dei caratteri matematici migliori: \mathscr{} e \mathcal{}
+\usepackage{physics}					% Molte cose utili. La documentazione è molto ben fatta
+%\usepackage{braket} 					% Per il comando \Set, e altre (poche) cose. Non so se serve sempre, col pacchetto physics...
+\usepackage[italian]{varioref}			% Per usare il comando \vref{label}, che dà dei collegamenti più dettagliati
+%\usepackage[notref]{showkeys}			% Mostra al lato del numero di etichetta il suo "nome"
+%\usepackage[all,cmtip]{xy}				% xymatrix. Per fare diagrammi
+\usepackage{microtype}					% Migliora la tipografia, permettendo ad alcuni elementi di sporgere leggermente
+
+\usepackage{relsize}					% Per usare \mathbigger{} ecc
+\usepackage{array}						% per fare gli array. Tabelle con matematica dentro
+\usepackage{multirow}					% per usare il comando multirow
+%\usepackage{faktor}						% Per i simboli dell'insieme quoziente
+
+%\usepackage{listings}					% Per scrivere codice in LaTeX...
+\usepackage{xcolor}						% ... e per colorarlo
+
+
+\usepackage{graphicx}
+
+\usepackage{hyperref}					% Migliora i collegamenti e links. Va caricato per ultimo
+
+
+%\usepackage{tabularx}					% per fare tabelle. Carica il pacchetto array, per gli array.
+%\usepackage{booktabs}					% i prossimi due pacchetti servono per le tabelle
+%\usepackage{caption}
+%\usepackage{subcaption}
+
+%\usepackage{sidecap}					% Per inserire immagini e tabelle con didascalie a lato
+
+
+	% TEOREMI CUSTOM:
+\theoremstyle{definition}				% Definisce ambienti per Teoremi, esercizi, corollari... Con lo stile adeguato
+\newtheorem{definizione}{Definizione}%[section]
+\newtheorem{proposizione}{Proposizione}
+\newtheorem*{proposizione*}{Proposizione}
+\newtheorem{teorema}{Teorema}
+
+\theoremstyle{remark}
+\newtheorem{oss}{Osservazione}%[section]
+\newtheorem*{oss*}{Osservazione}
+\newtheorem*{notazione}{Notazione}
+
+\theoremstyle{plain}
+\newtheorem{esercizio}{Esercizio}%[section]
+\newtheorem*{esercizio*}{Esercizio}
+\newtheorem{corollario}{Corollario}[esercizio]
+\newtheorem{lemma}{Lemma}%[esercizio]
+
+
+ 	% COMANDI CUSTOM: 	
+\newcommand{\pf}{\mathcal{P}_{\text{\tiny F}}}					% Comando per le parti finite
+\newcommand{\diffsim}{\mathbin{\scriptstyle\bigtriangleup}}		% Comando per la differenza simmetrica
+\newcommand\restr[2]{{											% Commando for restriction. We make the whole thing an ordinary symbol
+		\left.\kern-\nulldelimiterspace % automatically resize the bar with \right
+		#1 % the function
+		\vphantom{\big|} % pretend it's a little taller at normal size
+		\right|_{#2} % this is the delimiter
+}}
+\newcommand{\comp}[1]{{#1}^{\complement}}						%comando per il complementare
+\newcommand{\R}{\mathbb{R}}										%per scrivere l'insieme dei reali, in breve
+
+
+
+
+	% -------------------------- BODY -------------------------- 
+
+\begin{document}
+	\begin{abstract}
+		Template standard per un documento in \LaTeX{} 
+	\end{abstract}
+	
+	\section*{Introduzione}
+	\begin{notazione}
+		Denotiamo con $N$, o con $[n]$, l'insieme $\{1,\dots,n\}\subseteq\mathbb{N}$.
+		
+		Ricordiamo che il gruppo simmetrico su $n$ elementi, $S_n$, è naturalmente in bigezione con l'insieme $[n]!$ delle permutazioni degli elementi di $[n]$.
+	\end{notazione}
+	
+	\begin{definizione}
+		Introduciamo l'insieme 
+		\[
+			V_{[n]}=\qty\big{v\in\mathrm{Fun}\qty(\mathcal{P}(N),\R)\mid v(\emptyset)=0}.
+		\]
+	\end{definizione}
+	
+	\begin{lemma}\label{lemma:vectorspace}
+		$V_{[n]}$ è uno spazio vettoriale reale di dimensione $2^n-1$.
+	\end{lemma}
+	\begin{proof}
+		Sia $V\coloneqq\mathrm{Fun}\left(\mathcal{P}(N),\R\right)$ e consideriamo la valutazione sull'insieme vuoto: 
+		\[
+			\begin{array}{rccl}
+				\mathit{val}_{\emptyset}\colon	& V	& \longrightarrow & \R\\
+				 & v & \longmapsto & v\left(\emptyset\right)
+			\end{array}	
+		\]
+		
+		$V$ è uno spazio vettoriale su $\R$ di dimensione $\qty|\mathcal{P}(N)|=2^n$. $\mathit{val}_{\emptyset}$ è lineare e $V_{[n]}=\ker\textit{val}_{\emptyset}$, mentre ovviamente $\rank \textit{val}_{\emptyset}=1$ Si conclude per la formula delle dimensioni $\dim V = \dim\ker\textit{val}_{\emptyset}+\rank\textit{val}_{\emptyset}$.
+	\end{proof}
+	
+	Può essere utile scendere un po' di più nel dettaglio. Gli spazi vettoriali $V$ e $\R^{2^n}$ sono isomorfi. Un isomorfismo esplicito è dato da
+	\[
+		\begin{array}{rccc}
+			\Phi\colon & V & \longrightarrow & \R^{2^n}\\
+			 & v & \longmapsto & \begin{pmatrix}
+			 v(\emptyset)\\
+			 v(S_1)\\
+			 \vdots\\
+			 v(S_{2^n-1})
+			 \end{pmatrix}
+		\end{array}
+	\]
+	Con $\mathcal{P}(N)=\qty{\emptyset,S_1,\dots,S_{2^n-1}}$
+	
+	\begin{oss}
+		In questo contesto, risulta ovvia la linearità di $\textit{val}_{\emptyset}$. Questa funzione infatti coincide con $\pi_1\circ\Phi$, dove $\pi_1\colon\R^{2^n}\to\R$ è la proiezione sulla prima componente.
+	\end{oss}
+	
+	In maniera analoga, possiamo pensare ogni $v\in V_{[n]}$ (precisamente, a $\restr{v}{\mathcal{P}(N)\setminus\qty{\emptyset}}$) come a un vettore di $2^n-1$ componenti.
+    \begin{definizione}\label{def:carrier_game}
+        Per ogni $T\in\mathscr{D}\coloneqq\mathcal{P}(N)\setminus\{\emptyset\}$ definiamo il \emph{gioco portatore} di $T$ come $\left([n],u_T\right)$, dove $u_T(S)=\begin{dcases}1 & T\subseteq S\\ 0 & T\not\subseteq S.\end{dcases}$
+    \end{definizione}
+    Osserviamo che l'insieme $\qty{u_T}_{T\in\mathscr{D}}$ \emph{non} corrisponde, tramite l'isomorfismo $\Phi$\footnote{Precisamente, tramite $\pi_{\mathrm{Span}\{e_1\}^{\perp}}\circ\restr{\Phi}{V_{[n]}}$} alla base canonica di $\R^{2^n-1}$.
+    \begin{lemma}\label{lemma:basis}
+        $\qty{u_T}_{T\in\mathscr{D}}$ è una base di $V_{[n]}$.
+    \end{lemma}
+    \begin{proof}
+        Siano $\qty{\lambda_{T}}_{T\in\mathscr{D}}$ degli scalari reali e consideriamo una combinazione lineare nulla $\sum_{T\in\mathscr{D}}\lambda_Tu_T=0$, ovvero $\sum_{T\in\mathscr{D}}\lambda_Tu_T(S)=0\quad\forall\,S\subseteq[n]$.
+
+        Sia $\mathscr{C}\coloneqq\qty{T\in\mathscr{D}\mid\lambda_T\neq 0}$ e supponiamo per assurdo $\mathscr{C}\ne\emptyset$. Sia $\hat{S}\in\mathscr{C}$ minimo per inclusione, ossia $T\in\mathscr{C}, T\ne\hat{S}\implies T\not\subseteq\hat{S}$.
+
+        Ma allora si ha
+        \[
+            0=\sum_{T\in\mathscr{D}}\lambda_Tu_T(\hat{S})=\sum_{T\subseteq\hat{S}}\lambda_Tu_T(\hat{S}),
+        \]
+        dove l'ultima uguaglianza segue dalla definizione di gioco portatore di $\hat{S}$. Dalla definizione di $\hat{S}$ ricaviamo 
+        \[
+            \sum_{T\subseteq\hat{S}}\lambda_Tu_T(\hat{S})=\lambda_{\hat{S}}u_{\hat{S}}(\hat{S})=\lambda_{\hat{S}},
+        \]
+        ma $\lambda_{\hat{S}}\ne 0$. Siamo caduti in contraddizione.
+
+        Ne segue che $\mathscr{C}=\emptyset$; dunque $\lambda_T=0\quad\forall\,T\in\mathscr{D}$ e di conseguenza $\qty{u_T}_{T\in\mathscr{D}}$ è un sistema linearmente indipendente. Ma la sua cardinalità coincide con $\dim V_{[n]}$, quindi è una base.
+    \end{proof}
+	
+	
+	\section*{Il Teorema di Shapley}
+	\begin{definizione}\label{def:proprietà}
+		Una funzione $\phi\colon V_{[n]}\to\R^n$ soddisfa le proprietà di
+		\begin{itemize}
+			\item \textbf{Efficienza} (o \emph{razionalità collettiva}) se $\sum_{i\in[n]}\phi_i(v)=v(N)$
+			\item \textbf{Simmetria} se $v(S\cup\{i\})=v(S\cup\left\{j\right\})\quad\forall\,S\subseteq[n]\setminus\qty{i,j}\implies\phi_i(v)=\phi_j(v)$
+			\item \textbf{Additività} se $\phi(v+w)=\phi(v)+\phi(w)\quad\forall\,v,w\in V_{[n]}$
+			\item \textbf{Giocatore nullo} se $v(S\cup\{i\})=v(S)\quad\forall\,S\subseteq[n]\implies\phi_i(v)=0$.
+		\end{itemize}
+	\end{definizione}
+    Enunciamo, e dimostriamo, un piccolo lemma che renderà pressoché immediata la dimostrazione del teorema~\ref{teor:Shapley}.
+    \begin{lemma}\label{lemma:common_structure}
+        Ogni $\phi\colon V_{[n]}\to\R^n$ che soddisfa le proprietà della definizione~\ref{def:proprietà} è tale che 
+        \[
+            \phi_i(\lambda u_T)=\begin{dcases}
+                \frac{\lambda}{T} & i\in T\\
+                0 & i\not\in T
+            \end{dcases}
+        \]
+        dove $\lambda\in\R$ e $\qty{u_T}_{T\in\mathscr{D}}$ sono le funzioni introdotte nella definizione~\ref{def:carrier_game}.
+    \end{lemma}
+    \begin{proof}
+        Sia $T\in\mathscr{D}$. Osserviamo che ogni $i\notin T$ è un giocatore nullo, infatti per ogni $S\subseteq[n]$ si ha $T\subseteq S\implies T\subseteq S\cup\{i\}$ e $T\not\subseteq S\implies T\not\subseteq S\cup\{i\}$. Quindi $u_T(S\cup\{i\})=u_T(S)\quad\forall\,i\notin T$, e per la proprietà del giocatore nullo $i\notin T\implies\phi_i(\lambda u_T)=0$.
+
+        Siano $i,j\in T, i\ne j$. $i$ e $j$ sono giocatori simmetrici: per ogni $S\subseteq[n]\setminus\{i,j\}$ si ha $u_T(S\cup\{i\})=0$, dato che $T\not\subseteq S\cup\{i\}$ dato che $j\in T$ ma $j\notin S\cup\{i\}$; ma $u_T(S\cup\{j\})=0$ per un motivo analogo. 
+        
+        Ne segue che $\phi_i(\lambda u_T)=C_T\quad\forall\,i\in T$, dove $C_T$ è un'opportuna costante che dipende da $T\in\mathscr{D}$.
+
+        Ora,
+        \[
+            \qty|T|\cdot C_T = \sum_{i\in T}\phi_i(\lambda u_T)=\sum_{i=1}^n\phi_i(\lambda u_T).
+        \]
+        Ma per efficienza
+        \[
+             \sum_{i=1}^n\phi_i(\lambda u_T)=\lambda u_T(N)=\lambda
+        \]
+        ossia $C_T=\frac{\lambda}{\qty|T|}$.
+    \end{proof}
+    
+	\begin{definizione}
+		Sia $v\in V_{[n]}$. Il \emph{valore di Shapley} di $v$ è una funzione $\mathit{Sh}\colon V_{[n]}\to\R^{n}$, dove il valore di ciascuna componente è dato da
+		\[
+			\mathit{Sh}_i(v)=\frac{1}{n!}\sum_{\sigma\in S_n} v\left(P_i(\sigma)\cup\{i\}\right)-v\left(P_i(\sigma)\right)
+		\]	
+		dove $P_i(\sigma)\coloneqq\qty{j\in[n]\mid \sigma(j)<\sigma(i)}$.
+	\end{definizione}
+	
+	\begin{oss}\label{oss:Shapley_alternative}
+		Un'espressione alternativa per il valore di Shapley è
+		\begin{equation}\label{eqn:Shapley_alternative}
+			\mathit{Sh}_i(v)=\frac{1}{n!}\smashoperator[r]{\sum_{S\subseteq[n]\setminus\{i\}}}\,\qty|S|!\left(n-\qty|S|-1\right)!\left(v\left(S\cup\{i\}\right)-v(S)\right).
+		\end{equation}
+	\end{oss}	
+	\begin{proposizione}\label{prop:Shapley_proprietà}
+		Il valore di Shapley soddisfa tutte le proprietà della definizione~\ref{def:proprietà}.
+	\end{proposizione}
+	\begin{proof} Si tratta di una verifica diretta
+		\begin{itemize}
+			\item \textbf{Additività} Si veda l'esercizio~\ref{es:propr_Shapley}.
+			\item \textbf{Giocatore nullo} Si veda l'esercizio~\ref{es:propr_Shapley}.
+			\item \textbf{Efficienza} Per l'osservazione~\ref{oss:Shapley_alternative} si ha
+				\begin{equation}\label{eqn:eff_sum}
+						\sum_{i=1}^{n}\mathit{Sh}_i(v)=\frac{1}{n!}\sum_{i=1}^{n}\smashoperator[r]{\sum_{S\subseteq[n]\setminus\{i\}}}\qty|S|!(n-\qty|S|-1)!\left( v(S\cup\{i\})-v(S) \right)
+				\end{equation} 
+    
+				Fissiamo $\hat{\imath}\in[n]$ e sia $\hat{S}\subseteq[n]\setminus\qty{\hat{\imath}}$.
+				\begin{itemize}
+					\item Se $\abs*{\hat{S}}<n-1$ allora $\exists\,j\ne\hat{\imath}\quad j\notin\hat{S}$. Ma allora sia $\hat{S}$ sia $\hat{S}\cup\qty{\hat{\imath}}$ compaiono 
+					nella sommatoria relativa all'indice $j$ e i termini $v(\hat{S}\cup\qty{\hat{\imath}}),v(\hat{S})$ si elidono nella~\eqref{eqn:eff_sum}. 
+					\item Se $\abs*{\hat{S}}=n-1$ allora $\hat{S}=[n]\setminus\qty{\hat{\imath}}$. $\hat{S}$ se ne va nella somma, basta considerare $j\ne\hat{\imath}$ e si ha
+					$\hat{S}=\underbrace{[n]\setminus\qty{\hat{\imath},j}}_{\in\,\mathcal{P}\left(N\setminus\qty{j}\right)}\cup\qty{j}$. 
+
+					$\hat{S}\cup\qty{\hat{\imath}}=[n]$ non viene eliminato da nessuno, e compare in tutto $n$ volte nella sommatoria più esterna
+					(una per ciascun indice $i\in[n]$). Quindi nella~\eqref{eqn:eff_sum} rimane $\frac{1}{n!}\cdot (n-1)!\,n\cdot v(N)=v(N)$.
+				\end{itemize}
+			\item \textbf{Simmetria} Siano $\hat{\imath},\hat{\jmath}\in[n], \hat{\imath}\ne \hat{\jmath}$ giocatori simmetrici. Possiamo riscrivere la~\eqref{eqn:Shapley_alternative} come:
+			\begin{flalign}
+				\mathit{Sh}_i(v) &= 
+				\begin{multlined}[t]%\SwapAboveDisplaySkip
+					\frac{1}{n!} \smashoperator[r]{\sum_{\crampedsubstack{S\subseteq[n]\setminus\{\hat{\imath}\}\\\hat{\jmath}\in S}}}\qty|S|!(n-\qty|S|-1)!\left( v(S\cup\qty{\hat{\imath}})-v(S) \right)+\\
+					\shoveright{-\frac{1}{n!}\smashoperator[r]{\sum_{S\subseteq[n]\setminus\{\hat{\imath},\hat{\jmath}\}}}\qty|S|!(n-\qty|S|-1)!\left( v(S\cup\qty{\hat{\imath}})-v(S) \right)=}\\
+				\end{multlined} & \nonumber\\
+				& \begin{aligned}\label{eqn:sum_twoterms}
+					=\frac{1}{n!} \smashoperator[r]{\sum_{\crampedsubstack{S\subseteq[n]\setminus\{\hat{\imath}\}\\\hat{\jmath}\in S}}}\qty|S|!(n-\qty|S|-1)!\left( v(S\cup\qty{\hat{\imath}})-v(S) \right)+\\
+					-\frac{1}{n!}\smashoperator[r]{\sum_{S\subseteq[n]\setminus\{\hat{\imath},\hat{\jmath}\}}}\qty|S|!(n-\qty|S|-1)!\left( v(S\cup\qty{\hat{\jmath}})-v(S) \right)
+				\end{aligned}	& 		
+			\end{flalign}
+
+            Per ogni $S\subseteq[n]\setminus\{\hat{\imath}\}$ definiamo %$S^{-}\coloneqq S\setminus\{\hat{\jmath}\}$, $S^{+}\coloneqq S^-\setminus\{\hat{\imath}\}=\left(S\cup\{\hat{\imath}\}\right)\setminus\{\hat{\jmath}\}$ 
+            %\begin{subequations}
+            \begin{align*}
+                S^{-} &\coloneqq S\setminus\{\hat{\jmath}\} \\
+                S^{+} &\coloneqq S^-\setminus\{\hat{\imath}\}=\left(S\cup\{\hat{\imath}\}\right)\setminus\{\hat{\jmath}\}.
+            \end{align*}
+            %\end{subequations}
+            Osserviamo che 
+            \begin{gather}
+                S\cup\{\hat{\imath}\}=S^-\cup\{\hat{\imath},\hat{\jmath}\}=S^+\cup\{\hat{\jmath}\}\nonumber\\
+                \intertext{e che dunque}
+                \begin{split}\label{eqn:v_S}
+                    v(S\cup\{\hat{\imath}\}-v(S) &= v(S^+\cup\{\hat{j}\})-v(S^-\cup\{\hat{\jmath}\})\\
+                    &=v(S^-\cup\{\hat{\imath},\hat{\jmath}\})-v(S^-\cup\{\hat{\jmath}\}).
+                \end{split}
+            \end{gather}
+            Dalla~\eqref{eqn:v_S} segue che
+            \begin{align}
+                & \frac{1}{n!} \smashoperator[r]{\sum_{\crampedsubstack{S\subseteq[n]\setminus\{\hat{\imath}\}\\\hat{\jmath}\in S}}}\qty|S|!(n-\qty|S|-1)!\left( v(S\cup\qty{\hat{\imath}})-v(S) \right)=\nonumber\\
+                & \!\begin{multlined}[b]
+                   = \frac{1}{n!}\smashoperator[r]{\sum_{S^-\subseteq[n]\setminus\{\hat{\imath},\hat{\jmath}\}}}\qty|S^-\cup\{\hat{\jmath}\}|!\left(n-\qty|S^-\cup\{\hat{\jmath}\}|-1\right)!\\
+                    \left(v(S^-\cup\{\hat{\imath},\hat{\jmath}\})-v(S^-\cup\{\hat{\jmath}\})\right)
+                \end{multlined}= \nonumber\\
+                %\intertext{I giocatori $\hat{\imath}$ e $\hat{\jmath}$ sono simmetrici e non appartengono a $S^-$. Dunque la precedente è uguale a}
+                & \!\begin{multlined}[b]\label{eqn:sum_S-}
+                    = \frac{1}{n!}\smashoperator[r]{\sum_{S^-\subseteq[n]\setminus\{\hat{\imath},\hat{\jmath}\}}}\qty|S^-\cup\{\hat{\jmath}\}|!\left(n-\qty|S^-\cup\{\hat{\jmath}\}|-1\right)!\\
+                    \left(v(S^-\cup\{\hat{\imath},\hat{\jmath}\})-v(S^-\cup\{\hat{\imath}\})\right),
+                \end{multlined}
+            \end{align}
+            dove l'ultima uguaglianza segue dal fatto che i giocatori $\hat{\imath}$ e $\hat{\jmath}$ sono simmetrici e non appartengono a $S^-$. Ora possiamo riscrivere la~\eqref{eqn:sum_S-} nella forma
+            \[
+                \frac{1}{n!} \smashoperator[r]{\sum_{\crampedsubstack{S^+\subseteq[n]\setminus\{\hat{\jmath}\}\\\hat{\imath}\in S^+}}}\qty|S^+|!(n-\qty|S^+|-1)!\left( v(S^+\cup\qty{\hat{\jmath}})-v(S^+) \right).
+            \]
+            Sostituendo nella~\eqref{eqn:sum_twoterms} otteniamo
+            \begin{flalign*}
+                \mathit{Sh}_i(v) =& \frac{1}{n!} \smashoperator[r]{\sum_{\crampedsubstack{S\subseteq[n]\setminus\{\hat{\jmath}\}\\\hat{\imath}\in S}}}\qty|S|!(n-\qty|S|-1)!\left( v(S\cup\qty{\hat{\jmath}})-v(S) \right)+&\\
+                 & +\frac{1}{n!}\smashoperator[r]{\sum_{S\subseteq[n]\setminus\{\hat{\imath},\hat{\jmath}\}}}\qty|S|!(n-\qty|S|-1)!\left( v(S\cup\qty{\hat{\jmath}})-v(S) \right)=&\\
+                 &  =\mathit{Sh}_j(v). 
+            \end{flalign*}
+            Dunque la funzione $\mathit{Sh}$ è simmetrica rispetto ai giocatori $\hat{\imath}$ e $\hat{\jmath}$.\qedhere
+		\end{itemize}
+	\end{proof}
+
+
+	% Esperimenti
+%	\[
+%		\mathit{Sh}_i(v) =
+%		\begin{multlined}[t]%[\columnwidth]
+%			\frac{1}{n!} \smashoperator[r]{\sum_{\crampedsubstack{S\subseteq[n]\setminus\{\hat{\imath}\}\\\hat{\jmath}\in S}}}\qty|S|!(n-\qty|S|-1)!\left( v(S\cup\qty{\hat{\imath}})-v(S) \right)+ \\
+%			-\frac{1}{n!}\smashoperator[r]{\sum_{S\subseteq[n]\setminus\{\hat{\imath},\hat{\jmath}\}}}\qty|S|!(n-\qty|S|-1)!\left( v(S\cup\qty{\hat{\imath}})-v(S) \right)=
+%		\end{multlined}
+%	\]
+
+%	\begin{flalign*}
+%		\mathit{Sh}_i(v) &=
+%		\begin{multlined}[t]
+%			\frac{1}{n!} \smashoperator[r]{\sum_{\crampedsubstack{S\subseteq[n]\setminus\{\hat{\imath}\}\\\hat{\jmath}\in S}}}\qty|S|!(n-\qty|S|-1)!\left( v(S\cup\qty{\hat{\imath}})-v(S) \right)+\\
+%			\shoveright{\frac{1}{n!}-\smashoperator[lr]{\sum_{S\subseteq[n]\setminus\{\hat{\imath},\hat{\jmath}\}}}\qty|S|!(n-\qty|S|-1)!\left( v(S\cup\qty{\hat{\imath}})-v(S) \right)= }
+%		\end{multlined} & \\
+%		& \begin{multlined}[t]
+%			\frac{1}{n!} \smashoperator[r]{\sum_{\crampedsubstack{S\subseteq[n]\setminus\{\hat{\imath}\}\\\hat{\jmath}\in S}}}\qty|S|!(n-\qty|S|-1)!\left( v(S\cup\qty{\hat{\imath}})-v(S) \right)+ \\
+%			\frac{1}{n!}-\smashoperator[lr]{\sum_{S\subseteq[n]\setminus\{\hat{\imath},\hat{\jmath}\}}}\qty|S|!(n-\qty|S|-1)!\left( v(S\cup\qty{\hat{\jmath}})-v(S) \right)= 
+%		\end{multlined} &
+%	\end{flalign*}
+
+	
+	\begin{teorema}\label{teor:Shapley}
+		Il valore di Shapley è l'unica funzione che soddisfa le proprietà di efficienza, simmetria, additività e la proprietà del giocatore nullo. 
+	\end{teorema}
+	\begin{proof}
+        Per il lemma~\ref{lemma:vectorspace} $V_{[n]}$ è uno spazio vettoriale su $\R$ di dimensione $2^n-1$, una cui base è data -- per il lemma~\ref{lemma:basis} -- da $\qty{u_T}_{T\in\mathscr{D}}$.
+
+        Sia $\phi\colon V_{[n]}\to\R^n$ una funzione che soddisfa le quattro proprietà della definizione~\ref{def:proprietà}. Per la proposizione~\ref{prop:Shapley_proprietà} anche la funzione $\mathit{Sh}$ soddisfa tali proprietà, ma quindi per il lemma~\ref{lemma:common_structure} si ha che
+        \begin{equation}\label{eqn:Sh_phi_i}
+            \phi_i(\lambda u_T)=\mathit{Sh}_i(\lambda u_T)\quad\forall\,i\in[n].
+        \end{equation}
+        Sia $v\in V_{[n]}$. Poiché $\qty{u_T}_{T\in\mathscr{D}}$ è una base, esistono degli scalari $\qty{\lambda_T}_{T\in\mathscr{D}}$ tali che $v=\sum_{T\in\mathscr{D}}\lambda_T u_T$. Ora, per ogni $i\in[n]$ si ha
+        \[
+            \phi_i(v) = \phi_i\qty(\sum_{T\in\mathscr{D}}\lambda_Tu_T) = \sum_{T\in\mathscr{D}}\phi_i(\lambda_Tu_T)        
+        \]
+        poiché $\phi$ soddisfa la proprietà di additività. Ma per la~\eqref{eqn:Sh_phi_i}
+        \begin{align*}
+            \sum_{T\in\mathscr{D}}\phi_i(\lambda_Tu_T)&=\sum_{T\in\mathscr{D}}\mathit{Sh}_i(\lambda_Tu_T)=\\
+             &=\mathit{Sh}_i\qty(\sum_{T\in\mathscr{D}}\lambda_Tu_T)=\mathit{Sh}_i(v).\qedhere
+        \end{align*}
+	\end{proof}
+
+
+	\section*{Esercizi}
+	\begin{esercizio}
+		Dimostrare direttamente che $\mathrm{Fun}\qty(\mathcal{P}(N),\R)$ è uno spazio vettoriale reale.
+	\end{esercizio}
+	\begin{esercizio}
+		Dimostrare il contenuto dell'osservazione~\ref{oss:Shapley_alternative}.
+	\end{esercizio}
+	\begin{esercizio}\label{es:propr_Shapley}
+		Dimostrare che il valore di Shapley soddisfa la proprietà di additività e la proprietà del giocatore nullo.
+	\end{esercizio} 
+    \begin{esercizio}
+        Dimostrare che nell'insieme $\mathscr{C}$ introdotto nella dimostrazione del teorema~\ref{teor:Shapley}, nell'ipotesi (assurda) in cui esso sia non vuoto, un minimo per inclusione $\hat{S}$ esiste. 
+    \end{esercizio}
+
+\end{document}
